@@ -2,9 +2,9 @@ type Query {
     ping: String!
 
     # 리뷰 리스트 조회
-    reviews(after: String, before: String, first: Int, last: Int, orderBy: ReviewOrder): ReviewConnection!
+    reviews(bldgId: ID!, after: String, before: String, first: Int, last: Int, orderBy: ReviewOrder): ReviewConnection!
     # 리뷰 조회
-    review(id: ID!): Review!
+    review(id: ID!): Review
 
     # 건물 조회
     bldgs(lat: Float!, lng: Float!, scale: Int!): [Bldg!]!

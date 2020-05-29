@@ -8,9 +8,10 @@ type ReviewOrderBy struct {
 
 // ReviewsArgs ...
 type ReviewsArgs struct {
+	BldgID  string
 	After   *string
 	Before  *string
-	First   *string
+	First   *int32
 	Last    *int32
 	OrderBy *ReviewOrderBy
 }
