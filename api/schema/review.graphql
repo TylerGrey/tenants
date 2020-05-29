@@ -1,0 +1,86 @@
+# A review
+type Review implements Node {
+    # ID of the review.
+    id: ID!
+    # 제목
+    title: String!
+    # 리뷰
+    content: String!
+    # 총점
+    totalScore: Float!
+    # 상세 점수
+    score: ReviewScore!
+    # 작성일
+    updatedAt: String!
+}
+
+# 리뷰 점수
+type ReviewScore {
+    # 금액
+    rent: Int!
+    # 관리비
+    maintenanceFees: Int!
+    # 교통
+    publicTransport: Int!
+    # 편의시설
+    convenience: Int!
+    # 임대인
+    landlord: Int!
+}
+
+type ReviewEdge {
+    cursor: String!
+    node: Review
+}
+
+type ReviewConnection {
+    edges: [ReviewEdge]
+    nodes: [Review]
+    pageInfo: PageInfo!
+    totalCount: Int!
+}
+
+enum ReviewField {
+    UPDATED_AT
+}
+
+input ReviewOrder {
+    field: ReviewField!
+    direction: OrderDirection!
+}
+
+input CreateReviewInput {
+    # 위도
+    lat: Float!
+    # 경도
+    lng: Float!
+    # 제목
+    title: String!
+    # 리뷰
+    content: String!
+    # 점수
+    score: ReviewScoreInput!
+}
+
+input UpdateReviewInput {
+    id: ID!
+    # 제목
+    title: String
+    # 리뷰
+    content: String
+    # 점수
+    score: ReviewScoreInput
+}
+
+input ReviewScoreInput {
+    # 금액
+    rent: Int!
+    # 관리비
+    maintenanceFees: Int!
+    # 교통
+    publicTransport: Int!
+    # 편의시설
+    convenience: Int!
+    # 임대인
+    landlord: Int!
+}

@@ -1,0 +1,17 @@
+# An object with an ID.
+interface Node {
+    # ID of the object.
+    id: ID!
+}
+
+type PageInfo {
+    endCursor: String
+    hasNextPage: Boolean!
+    hasPreviousPage: Boolean!
+    startCursor: String
+}
+
+enum OrderDirection {
+    ASC,
+    DESC
+}
