@@ -1,0 +1,7 @@
+type Bldg {
+    id: ID!
+    lat: Float!
+    lng: Float!
+    rating: Float!
+    updated_at: String!
+}

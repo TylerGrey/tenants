@@ -12,7 +12,7 @@ type Bldg struct {
 	Addr      string
 	Lat       float64
 	Lng       float64
-	Rating    float32
+	Rating    float64
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt *time.Time
@@ -22,6 +22,7 @@ type Bldg struct {
 type BldgRepository interface {
 	Create(bldg Bldg) (*Bldg, error)
 	FindByLatLng(lat float64, lng float64) (*Bldg, error)
+	List(lat float64, lng float64) ([]*Bldg, error)
 }
 
 // bldgRepository 인터페이스 구조체
@@ -57,4 +58,19 @@ func (r bldgRepository) FindByLatLng(lat float64, lng float64) (*Bldg, error) {
 	}
 
 	return bldg, nil
+}
+
+func (r bldgRepository) List(lat float64, lng float64) ([]*Bldg, error) {
+	var bldgs []*Bldg
+	if err := r.replica.Table("bldg").
+		Select("*, ST_DISTANCE_SPHERE(POINT(?, ?), POINT(lng, lat)) AS dist", lng, lat).
+		Having("dist < 500").
+		Order("dist").
+		Find(&bldgs).Error; gorm.IsRecordNotFoundError(err) {
+		return bldgs, err
+	} else if err != nil {
+		return nil, err
+	}
+
+	return bldgs, nil
 }

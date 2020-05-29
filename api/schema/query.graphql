@@ -5,4 +5,7 @@ type Query {
     reviews(after: String, before: String, first: Int, last: Int, orderBy: ReviewOrder): ReviewConnection!
     # 리뷰 조회
     review(id: ID!): Review!
+
+    # 건물 조회
+    bldgs(lat: Float!, lng: Float!, scale: Int!): [Bldg!]!
 }
