@@ -8,13 +8,14 @@ func (r Resolver) Bldgs(args struct {
 	Lng   float64
 	Scale int32
 }) ([]model.Bldg, error) {
+	resolvers := []model.Bldg{}
+
 	// TODO scale 별 거리 조절
 	bldg, err := r.BldgRepo.List(args.Lat, args.Lng)
 	if err != nil {
-		return []model.Bldg{}, nil
+		return resolvers, err
 	}
 
-	resolvers := []model.Bldg{}
 	for _, b := range bldg {
 		resolvers = append(resolvers, model.Bldg{
 			Payload: *b,

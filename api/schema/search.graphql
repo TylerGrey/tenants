@@ -1,0 +1,8 @@
+type SearchResult {
+  name: String!
+  address: String!
+  roadAddress: String!
+  zoneNo: String!
+  lat: Float!
+  lng: Float!
+}
