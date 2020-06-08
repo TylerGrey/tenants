@@ -71,7 +71,7 @@ func (sr SearchResult) Lat() float64 {
 
 // Lng ...
 func (sr SearchResult) Lng() float64 {
-	lng, err := strconv.ParseFloat(sr.Payload.Y, 64)
+	lng, err := strconv.ParseFloat(sr.Payload.X, 64)
 	if err != nil {
 		lng = 0
 	}
