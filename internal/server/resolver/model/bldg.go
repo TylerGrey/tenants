@@ -33,6 +33,16 @@ func (b Bldg) Rating() float64 {
 	return b.Payload.Rating
 }
 
+// Address ...
+func (b Bldg) Address() string {
+	return b.Payload.Address
+}
+
+// RoadAddress ...
+func (b Bldg) RoadAddress() string {
+	return b.Payload.RoadAddress
+}
+
 // UpdatedAt ...
 func (b Bldg) UpdatedAt() string {
 	return b.Payload.UpdatedAt.String()

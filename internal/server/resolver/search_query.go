@@ -39,9 +39,11 @@ func (r *Resolver) Search(args struct {
 	}
 
 	for _, d := range searchResult.Documents {
-		resolvers = append(resolvers, model.SearchResult{
-			Payload: d,
-		})
+		if d.Address != nil && d.RoadAddress != nil {
+			resolvers = append(resolvers, model.SearchResult{
+				Payload: d,
+			})
+		}
 	}
 
 	return resolvers, nil

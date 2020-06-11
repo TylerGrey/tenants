@@ -8,14 +8,16 @@ import (
 
 // Bldg 건물
 type Bldg struct {
-	ID        uint64 `gorm:"primary_key"`
-	Addr      string
-	Lat       float64
-	Lng       float64
-	Rating    float64
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	DeletedAt *time.Time
+	ID          uint64 `gorm:"primary_key"`
+	Addr        string
+	Lat         float64
+	Lng         float64
+	Rating      float64
+	Address     string
+	RoadAddress string
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
+	DeletedAt   *time.Time
 }
 
 // BldgRepository ...

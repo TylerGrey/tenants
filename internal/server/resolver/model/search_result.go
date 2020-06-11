@@ -9,10 +9,10 @@ type KakaoResponse struct {
 
 // KakaoDocument 카카오 주소 검색 Response
 type KakaoDocument struct {
-	Address     KakaoAddress     `json:"address"`
-	RoadAddress KakaoRoadAddress `json:"road_address"`
-	X           string           `json:"x"`
-	Y           string           `json:"y"`
+	Address     *KakaoAddress     `json:"address"`
+	RoadAddress *KakaoRoadAddress `json:"road_address"`
+	X           string            `json:"x"`
+	Y           string            `json:"y"`
 }
 
 // KakaoAddress 카카오 주소 검색 Response

@@ -1,7 +1,9 @@
 type Bldg {
-    id: ID!
-    lat: Float!
-    lng: Float!
-    rating: Float!
-    updated_at: String!
+  id: ID!
+  lat: Float!
+  lng: Float!
+  rating: Float!
+  address: String!
+  roadAddress: String!
+  updated_at: String!
 }

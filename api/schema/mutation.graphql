@@ -1,8 +1,8 @@
 type Mutation {
-    # 리뷰 작성
-    createReview(input: CreateReviewInput!): Review
-    # 리뷰 수정
-    updateReview(input: UpdateReviewInput!): Review
-    # 리뷰 삭제
-    deleteReview(id: ID!): Boolean!
+  # 리뷰 작성
+  createReview(input: CreateReviewInput!): Review
+  # 리뷰 수정
+  updateReview(input: UpdateReviewInput!): Review
+  # 리뷰 삭제
+  deleteReview(id: ID!): Boolean!
 }
