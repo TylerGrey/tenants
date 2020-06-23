@@ -13,8 +13,8 @@ type Order struct {
 
 // ListArgs ...
 type ListArgs struct {
-	First  *int32
-	Last   *int32
+	First  *int
+	Last   *int
 	After  *string
 	Before *string
 	Order  *Order
@@ -27,7 +27,7 @@ type PageInfo struct {
 	Total   int32
 }
 
-const defaultListLimit = int32(20)
+const defaultListLimit = int(20)
 const defaultListCursor = "CONCAT(UNIX_TIMESTAMP(created_at), LPAD(id, 10, '0'))"
 const defaultListOrderField = "CREATED_AT"
 const defaultListOrderDirection = "DESC"
@@ -94,7 +94,7 @@ func getCursor(args ListArgs) (string, string) {
 	return cursor, direction
 }
 
-func getLimit(args ListArgs) int32 {
+func getLimit(args ListArgs) int {
 	if args.First != nil {
 		return *args.First
 	} else if args.Last != nil {
@@ -104,7 +104,7 @@ func getLimit(args ListArgs) int32 {
 	return defaultListLimit
 }
 
-func getPageInfo(args ListArgs, limit int32, list interface{}) (interface{}, PageInfo) {
+func getPageInfo(args ListArgs, limit int, list interface{}) (interface{}, PageInfo) {
 	var (
 		hasNext = false
 		hasPrev = false

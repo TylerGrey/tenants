@@ -1,6 +1,7 @@
 package resolver
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -8,16 +9,14 @@ import (
 	"net/url"
 	"os"
 
-	"github.com/TylerGrey/tenants/internal/server/resolver/model"
+	"github.com/TylerGrey/tenants/internal/graphql/model"
 )
 
 // Search 주소 검색
-func (r *Resolver) Search(args struct {
-	Query string
-}) ([]model.SearchResult, error) {
-	resolvers := []model.SearchResult{}
+func (r *queryResolver) Search(ctx context.Context, query string) ([]*model.SearchResult, error) {
+	resolvers := []*model.SearchResult{}
 
-	kakaoURL := fmt.Sprintf("%s?query=%s", os.Getenv("KAKAO_SEARCH_ADDRESS_URL"), url.QueryEscape(args.Query))
+	kakaoURL := fmt.Sprintf("%s?query=%s", os.Getenv("KAKAO_SEARCH_ADDRESS_URL"), url.QueryEscape(query))
 	req, err := http.NewRequest("GET", kakaoURL, nil)
 	if err != nil {
 		return resolvers, err
@@ -40,7 +39,7 @@ func (r *Resolver) Search(args struct {
 
 	for _, d := range searchResult.Documents {
 		if d.Address != nil && d.RoadAddress != nil {
-			resolvers = append(resolvers, model.SearchResult{
+			resolvers = append(resolvers, &model.SearchResult{
 				Payload: d,
 			})
 		}

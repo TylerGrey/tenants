@@ -3,8 +3,8 @@ module github.com/TylerGrey/tenants
 go 1.14
 
 require (
+	github.com/99designs/gqlgen v0.11.3
 	github.com/go-sql-driver/mysql v1.5.0
-	github.com/graph-gophers/graphql-go v0.0.0-20200309224638-dae41bde9ef9
-	github.com/jinzhu/gorm v1.9.12
-	github.com/rs/cors v1.7.0
+	github.com/jinzhu/gorm v1.9.14
+	github.com/vektah/gqlparser/v2 v2.0.1
 )

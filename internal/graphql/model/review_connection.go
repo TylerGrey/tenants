@@ -9,7 +9,7 @@ type ReviewConnection struct {
 }
 
 // Edges ...
-func (rc ReviewConnection) Edges() *[]*ReviewEdge {
+func (rc ReviewConnection) Edges() []*ReviewEdge {
 	edges := []*ReviewEdge{}
 
 	for _, p := range rc.Payload {
@@ -18,11 +18,11 @@ func (rc ReviewConnection) Edges() *[]*ReviewEdge {
 		})
 	}
 
-	return &edges
+	return edges
 }
 
 // Nodes ...
-func (rc ReviewConnection) Nodes() *[]*Review {
+func (rc ReviewConnection) Nodes() []*Review {
 	nodes := []*Review{}
 
 	for _, d := range rc.Payload {
@@ -31,19 +31,19 @@ func (rc ReviewConnection) Nodes() *[]*Review {
 		})
 	}
 
-	return &nodes
+	return nodes
 }
 
 // PageInfo ...
 func (rc ReviewConnection) PageInfo() PageInfo {
 	pageInfo := PageInfo{
-		HasNext:     rc.Page.HasNext,
-		HasPrevious: rc.Page.HasPrev,
+		HasNextPage:     rc.Page.HasNext,
+		HasPreviousPage: rc.Page.HasPrev,
 	}
 
 	if len(rc.Payload) > 0 {
-		pageInfo.Start = &rc.Payload[0].Cursor
-		pageInfo.End = &rc.Payload[len(rc.Payload)-1].Cursor
+		pageInfo.StartCursor = &rc.Payload[0].Cursor
+		pageInfo.EndCursor = &rc.Payload[len(rc.Payload)-1].Cursor
 	}
 
 	return pageInfo

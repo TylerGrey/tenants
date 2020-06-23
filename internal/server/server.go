@@ -8,13 +8,12 @@ import (
 	"os/signal"
 	"syscall"
 
-	schema "github.com/TylerGrey/tenants/internal/graphql"
+	"github.com/99designs/gqlgen/graphql/handler"
+	"github.com/99designs/gqlgen/graphql/playground"
+	"github.com/TylerGrey/tenants/internal/graphql/generated"
+	"github.com/TylerGrey/tenants/internal/graphql/resolver"
 	"github.com/TylerGrey/tenants/internal/mysql"
 	"github.com/TylerGrey/tenants/internal/mysql/repo"
-	"github.com/TylerGrey/tenants/internal/server/handler"
-	"github.com/TylerGrey/tenants/internal/server/resolver"
-	"github.com/graph-gophers/graphql-go"
-	"github.com/rs/cors"
 )
 
 // Server API Server
@@ -33,40 +32,24 @@ func (s Server) Start() error {
 	reviewRepo := repo.NewReviewRepository(mysqlMaster, mysqlReplica)
 	bldgRepo := repo.NewBldgRepository(mysqlMaster, mysqlReplica)
 
-	// Handler 설정
-	h := &handler.GraphQL{
-		Schema: graphql.MustParseSchema(schema.GetRootSchema(), &resolver.Resolver{
-			ReviewRepo: reviewRepo,
-			BldgRepo:   bldgRepo,
-		}),
-	}
+	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &resolver.Resolver{
+		ReviewRepo: reviewRepo,
+		BldgRepo:   bldgRepo,
+	}}))
 
-	mux := http.NewServeMux()
-	mux.Handle("/", http.FileServer(http.Dir(os.Getenv("PROJECT_ROOT_PATH")+"/web")))
-	mux.Handle("/graphiql", &handler.GraphiQL{})
-	mux.Handle("/graphql/", h)
-	mux.Handle("/graphql", h)
-
-	// CORS 설정
-	op := cors.Options{
-		AllowedOrigins:   []string{"*"},
-		AllowedMethods:   []string{"HEAD", "GET", "POST", "PUT", "PATCH", "DELETE"},
-		AllowedHeaders:   []string{"Origin", "Content-Type", "Access-Control-Allow-Headers", "DeviceInfo", "Authorization", "X-Requested-With"},
-		AllowCredentials: false,
-	}
-	handler := cors.New(op).Handler(mux)
+	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
+	http.Handle("/query", srv)
 
 	errc := make(chan error)
 	go func() {
 		c := make(chan os.Signal, 1)
 		signal.Notify(c, syscall.SIGINT)
-		errc <- fmt.Errorf("%s", <-c)
+		errc <- fmt.Errorf("signal: %s", <-c)
 	}()
 
-	log.Printf("Listening for requests on %s", *s.Addr)
-
 	go func() {
-		errc <- http.ListenAndServe(*s.Addr, handler)
+		log.Printf("connect to http://localhost:%s/ for GraphQL playground", *s.Addr)
+		errc <- http.ListenAndServe(*s.Addr, nil)
 	}()
 
 	return <-errc

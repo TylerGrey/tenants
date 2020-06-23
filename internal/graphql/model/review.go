@@ -4,7 +4,6 @@ import (
 	"strconv"
 
 	"github.com/TylerGrey/tenants/internal/mysql/repo"
-	"github.com/graph-gophers/graphql-go"
 )
 
 // Review ...
@@ -12,10 +11,13 @@ type Review struct {
 	Payload repo.Review
 }
 
+// IsNode ...
+func (Review) IsNode() {}
+
 // ID ...
-func (r Review) ID() graphql.ID {
+func (r Review) ID() string {
 	id := strconv.FormatUint(r.Payload.ID, 10)
-	return graphql.ID(id)
+	return id
 }
 
 // Title ...

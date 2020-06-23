@@ -1,4 +1,4 @@
-type Bldg {
+type Bldg implements Node {
   id: ID!
   lat: Float!
   lng: Float!
